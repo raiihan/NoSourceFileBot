@@ -76,6 +76,10 @@ async def stats(update: Update, context: ContextTypes.DEFAULT_TYPE):
 # MAIN
 def main():
     app = ApplicationBuilder().token(BOT_TOKEN).build()
+
+    # Delete any existing webhook before setting a new one
+    app.bot.delete_webhook()
+
     app.add_handler(CommandHandler("start", start))
     app.add_handler(CommandHandler("stats", stats))
     app.run_polling()
