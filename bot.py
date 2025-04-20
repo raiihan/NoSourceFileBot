@@ -1,7 +1,6 @@
 import logging
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import ApplicationBuilder, CommandHandler, ContextTypes
-from telegram.constants import ParseMode
 import os
 
 BOT_TOKEN = os.getenv("BOT_TOKEN")
@@ -77,11 +76,14 @@ async def stats(update: Update, context: ContextTypes.DEFAULT_TYPE):
 def main():
     app = ApplicationBuilder().token(BOT_TOKEN).build()
 
-    # Delete any existing webhook before setting a new one
+    # Remove the existing webhook (if set)
     app.bot.delete_webhook()
 
+    # Add handlers
     app.add_handler(CommandHandler("start", start))
     app.add_handler(CommandHandler("stats", stats))
+
+    # Use polling after removing webhook
     app.run_polling()
 
 if __name__ == "__main__":
